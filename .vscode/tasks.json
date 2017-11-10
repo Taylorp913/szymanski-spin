@@ -11,10 +11,21 @@
                 "-a",
                 "/home/taylor/Spin/Spin/proj3/szymanski-spin/szymanski.pml"
             ],
+            "problemMatcher":"$eslint-stylish",
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        }
+        {
+            "label": "Compile Pan",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-o",
+                "pan",
+                "pan.c"
+            ]
         }
     ]
 }
