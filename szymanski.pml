@@ -89,7 +89,7 @@ inner_sanctum:
 init {
 	byte proc;
 	atomic {
-		proc = 1;
+		proc = 0;
 		do
 		:: proc <= N ->
 			run P (proc);

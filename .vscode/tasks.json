@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "./../../Src6.4.7/spin",
             "args": [
-                "-a",
+                //"-a",
                 "/home/taylor/Spin/Spin/proj3/szymanski-spin/szymanski.pml"
             ],
             "problemMatcher":"$eslint-stylish",
