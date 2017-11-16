@@ -8,15 +8,15 @@
             "type": "shell",
             "command": "./../../Src6.4.7/spin",
             "args": [
-                //"-a",
+                "-a",
                 "/home/taylor/Spin/Spin/proj3/szymanski-spin/szymanski.pml"
             ],
-            "problemMatcher":"$eslint-stylish",
+            "problemMatcher": "$eslint-stylish",
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
-        }
+        },
         {
             "label": "Compile Pan",
             "type": "shell",
@@ -25,7 +25,38 @@
                 "-o",
                 "pan",
                 "pan.c"
-            ]
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Pan",
+            "type": "shell",
+            "command": "./pan",
+            "args": [
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "All",
+            "type": "shell",
+            "command": "./../../Src6.4.7/spin",
+            "args": [
+                "-a",
+                "/home/taylor/Spin/Spin/proj3/szymanski-spin/szymanski.pml"
+            ],
+
+            "command": "gcc",
+            "args": [
+                "-o",
+                "pan",
+                "pan.c"
+            ],
+
+            "command": "./pan",
+            "args": [
+            ],
+            "problemMatcher": []
         }
+
     ]
 }
