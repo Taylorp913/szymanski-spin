@@ -1,13 +1,14 @@
 /* szymanskis protocol, Taylor Peterson
  */
 
-#define N	3	/* num of processes */
+#define N	4	/* num of processes */
 #define L	16	/* size of buffer  (>= 2*N) */
 
 
 byte flag[N];
 int in_critical=0;
 byte in_sanctum = 0;
+byte line[N];
 
 proctype P (byte i) 
 {	
@@ -36,6 +37,7 @@ await1:
 atomic{
 		assert(in_sanctum==0);
 	  flag[i] = 3;
+		line[i] = 1; //waiting room
 	}
 	printf("Entering Waitng room %d,,,%d\n", i,flag[i]);	
 ////*waiting room*/
@@ -87,6 +89,13 @@ printf("Entering Inner Sanctum, %d\n", i);
 ////*Critical Section:*/////////////////// 
 /*line 11: wait until (flag[i+1] E 0; 1; 4) and : : : and (flag[N-1] E 0; 1; 4)*/
 printf("Entering Critical, %d", i);
+/*		for (j:0..(N-1)){
+			  if
+				:: line[j]==1 ->
+				assert(i<j);//assert for part C
+				:: else -> skip;
+				fi
+	    }*/
 in_critical = in_critical+1;
 assert(in_critical<=1)
  await4:
@@ -98,11 +107,19 @@ assert(in_critical<=1)
 				:: else -> goto await4;
 				fi
 	    }	      
-		}
 		in_critical=in_critical-1;
 		in_sanctum = in_sanctum-1; 
 /*line 12:flag[i]:= 0;*/
+		for (j:0..(N-1)){
+			  if
+				:: line[j]==1 ->
+				assert(flag[j]==4);//assert for part C
+				:: else -> skip;
+				fi
+	    }	
 	  flag[i] = 0;
+		line[i] = 0; //not critical
+		}
 	od
 }
 
@@ -113,6 +130,7 @@ init {
 		do
 		:: proc < N ->
 			run P (proc);
+			line[proc] = 0;
 			proc++
 		:: proc > N ->
 			break
