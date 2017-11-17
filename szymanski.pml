@@ -89,17 +89,24 @@ printf("Entering Inner Sanctum, %d\n", i);
 ////*Critical Section:*/////////////////// 
 /*line 11: wait until (flag[i+1] E 0; 1; 4) and : : : and (flag[N-1] E 0; 1; 4)*/
 printf("Entering Critical, %d", i);
-/*		for (j:0..(N-1)){
+		for (j:0..(N-1)){
 			  if
 				:: line[j]==1 ->
-				assert(i<j);//assert for part C
+				assert(i<=j);//assert for part B
 				:: else -> skip;
 				fi
-	    }*/
+	    }
 in_critical = in_critical+1;
 assert(in_critical<=1)
  await4:
 	  atomic {
+			for (j:0..(N-1)){
+			  if
+				:: line[j]==1 ->
+				assert(i<=j);//assert for part B
+				:: else -> skip;
+				fi
+	    }
 	    for (j:(i+1)..(N-1)){
 				//assert(flag[j]<4);
 				if 
