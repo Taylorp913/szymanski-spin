@@ -7,6 +7,7 @@
 
 byte flag[N];
 int in_critical=0;
+byte in_sanctum = 0;
 
 proctype P (byte i) 
 {	
@@ -32,7 +33,10 @@ await1:
 	printf("Entering Doorway, %d\n", i);
 ////*doorway*/
 /*line 4: flag[i]:= 3*/
+atomic{
+		assert(in_sanctum==0);
 	  flag[i] = 3;
+	}
 	printf("Entering Waitng room %d,,,%d\n", i,flag[i]);	
 ////*waiting room*/
 /*line 5: if (flag[0] = 1 or flag[1] = 1 or : : : or flag[N-1] = 1) then */
@@ -62,6 +66,7 @@ await1:
     }
 
 inner_sanctum:
+in_sanctum = in_sanctum+1;
 printf("Entering Inner Sanctum, %d\n", i);
 ////*inner sanctum*/
 /*line 8: flag[i]:= 4;*/
@@ -71,6 +76,7 @@ printf("Entering Inner Sanctum, %d\n", i);
  await3:
 	  atomic {
 	    for (j:0..(i-1)){
+				//assert(flag[j]<4);
 				if 
 				:: (flag[j] < 2) -> skip;	      
 				:: else -> goto await3;
@@ -86,6 +92,7 @@ assert(in_critical<=1)
  await4:
 	  atomic {
 	    for (j:(i+1)..(N-1)){
+				//assert(flag[j]<4);
 				if 
 				:: (flag[j] == 0 | flag[j] == 1 | flag[j] == 4) -> skip;  
 				:: else -> goto await4;
@@ -93,6 +100,7 @@ assert(in_critical<=1)
 	    }	      
 		}
 		in_critical=in_critical-1;
+		in_sanctum = in_sanctum-1; 
 /*line 12:flag[i]:= 0;*/
 	  flag[i] = 0;
 	od
